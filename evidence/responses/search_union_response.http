@@ -1,0 +1,44 @@
+### Union-based SQL Injection Response: Product catalog reflecting user records
+HTTP/1.1 200 OK
+Content-Type: text/html;charset=UTF-8
+Content-Language: en-US
+Transfer-Encoding: chunked
+Date: Wed, 16 Sep 2026 07:36:12 GMT
+Connection: keep-alive
+
+<!DOCTYPE html>
+<html lang="en">
+...
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên sản phẩm / Field 2</th>
+                <th>Mô tả / Field 3</th>
+                <th>Danh mục / Field 4</th>
+                <th>Giá ($)</th>
+                <th>Tồn kho</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><strong>admin</strong></td>
+                <td>FLAG{sqli_admin_bypass_master_2026}</td>
+                <td><span class="badge badge-warning">admin</span></td>
+                <td>$0.0</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><strong>manager</strong></td>
+                <td>FLAG{sqli_manager_privilege_granted}</td>
+                <td><span class="badge badge-warning">staff</span></td>
+                <td>$0.0</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+...

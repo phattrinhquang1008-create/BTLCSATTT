@@ -1,0 +1,13 @@
+### Authentication Bypass Response: Successful redirection and session cookie issue
+HTTP/1.1 302 Found
+Date: Wed, 16 Sep 2026 07:35:00 GMT
+Set-Cookie: JSESSIONID=7F982DA1BC64821E33D9C9A19A0A8F22; Path=/; HttpOnly
+Location: http://localhost:8080/index.jsp
+Content-Length: 0
+Connection: keep-alive
+
+<!--
+Ứng dụng chuyển hướng 302 tới index.jsp.
+Session cookie thiết lập phiên làm việc với quyền của tài khoản Admin mà không cần mật khẩu.
+Flag hiển thị trên index.jsp: FLAG{sqli_admin_bypass_master_2026}
+-->

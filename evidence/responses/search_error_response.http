@@ -1,0 +1,17 @@
+### Error-based SQL Injection Response: Verbose MySQL XPath error containing DB metadata
+HTTP/1.1 200 OK
+Content-Type: text/html;charset=UTF-8
+Content-Language: en-US
+Transfer-Encoding: chunked
+Date: Wed, 16 Sep 2026 07:37:45 GMT
+Connection: keep-alive
+
+<!DOCTYPE html>
+<html lang="en">
+...
+<div class="error-card">
+    <h3>💥 SQL Exception Triggered (Khai thác Error-based SQLi thành công):</h3>
+    <p>Database trả về thông báo lỗi trực tiếp cho người dùng. Dữ liệu trích xuất từ payload:</p>
+    <pre>XPATH syntax error: '~8.0.36~'</pre>
+</div>
+...

