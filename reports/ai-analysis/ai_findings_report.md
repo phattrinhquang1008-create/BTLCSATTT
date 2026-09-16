@@ -2,13 +2,13 @@
 
 > **Học phần:** An Toàn Thông Tin
 > **Đề tài:** Khai thác SQL Injection và Ứng dụng Generative AI trong phân tích lỗ hổng mã nguồn Java
-> **Thời gian khởi tạo:** 2026-09-16T14:38:34.211062
+> **Thời gian khởi tạo:** 2026-09-16T14:57:41.406018600
 
 ## 1. TỔNG QUAN KẾT QUẢ RÀ SOÁT (EXECUTIVE SUMMARY)
 
 | Chỉ số kiểm tra | Giá trị |
 |:---|:---|
-| **Thư mục mã nguồn mục tiêu** | `C:\Users\phatt\.gemini\antigravity\scratch\SQLInjection-Attack-AI\vulnerable-web\src\main\java` |
+| **Thư mục mã nguồn mục tiêu** | `C:\BTLAttt\vulnerable-web\src\main\java` |
 | **Tổng số tệp Java đã quét** | `7` |
 | **Số tệp phát hiện lỗ hổng SQLi** | `2` |
 | **Tổng số điểm nhạy cảm (Sinks)** | `2` |
