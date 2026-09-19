@@ -169,13 +169,90 @@ SQLInjection-Attack-AI/
 
 ## 🚀 Hướng dẫn Cài đặt & Triển khai
 
-### Yêu cầu Tiên quyết
-- **Hệ điều hành:** Windows / Linux / macOS
-- **Java:** JDK 17 hoặc mới hơn (`java -version`)
-- **MySQL Server:** 5.7+ hoặc 8.0+ đang chạy tại cổng `3306`
-- **Python 3:** (Tùy chọn, phục vụ chạy các script tự động khai thác trong thư mục `attacks/`)
+### 🛠️ Danh Sách Phần Mềm Cần Cài Đặt (Software Prerequisites)
+
+Để cài đặt và vận hành toàn bộ đồ án (bao gồm Web ứng dụng Java dính lỗi, module AI SAST Analyzer, và các kịch bản kiểm thử tấn công tự động), hệ thống của bạn cần cài đặt các phần mềm sau:
+
+| STT | Phần Mềm / Công Cụ | Phiên Bản Khuyến Nghị | Mục Đích Sử Dụng | Link Tải Chính Thức |
+|:---:|:---|:---|:---|:---|
+| **1** | **Java Development Kit (JDK)** | **JDK 17 LTS** (hoặc JDK 21) | Biên dịch & chạy Web Servlet/JSP và module `ai-analyzer` | [Adoptium Eclipse Temurin](https://adoptium.net/temurin/releases/) hoặc [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) |
+| **2** | **Apache Maven** | **3.8.0+** (hoặc 3.9+) | Quản lý thư viện phụ thuộc và chạy web app với `mvn tomcat7:run` | [Apache Maven Project](https://maven.apache.org/download.cgi) |
+| **3** | **MySQL Server** *(hoặc XAMPP / MariaDB)* | **MySQL 8.0+** *(hoặc MariaDB 10.4+)* | Cơ sở dữ liệu lưu trữ dữ liệu người dùng (`sqli_lab.sql`) | [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) hoặc [XAMPP](https://www.apachefriends.org/) |
+| **4** | **Python 3** | **Python 3.9 - 3.12** | Thực thi các kịch bản tấn công tự động (`attacks/`) | [Python Official Site](https://www.python.org/downloads/) |
+| **5** | **Git** | **Git 2.30+** | Quản lý phiên bản mã nguồn và đồng bộ GitHub | [Git SCM](https://git-scm.com/downloads) |
+| **6** | **Công Cụ Pentest & API Client** *(Tùy chọn)* | **Burp Suite Community** / **Postman** | Bắt gói tin HTTP Request/Response, thu thập bằng chứng thực nghiệm | [Burp Suite Community](https://portswigger.net/burp/communitydownload) / [Postman](https://www.postman.com/downloads/) |
+| **7** | **IDE Lập Trình** *(Khuyên dùng)* | **IntelliJ IDEA** / **VS Code** / **Eclipse** | Môi trường phát triển, debug mã nguồn Java và JSP | [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/) |
 
 ---
+
+### 📦 Hướng Dẫn Cài Đặt & Cấu Hình Môi Trường Chi Tiết
+
+#### 1. Cài đặt Java JDK 17+
+1. Tải bộ cài đặt `.msi` (Windows) hoặc `.deb`/`.tar.gz` (Linux) từ [Adoptium Temurin](https://adoptium.net/temurin/releases/).
+2. Chạy cài đặt và tích chọn **"Set JAVA_HOME variable"** và **"Add to PATH"**.
+3. Kiểm tra cài đặt thành công:
+   ```powershell
+   java -version
+   javac -version
+   ```
+   *(Đảm bảo kết quả trả về `openjdk version "17.x.x"` hoặc mới hơn).*
+
+#### 2. Cài đặt Apache Maven
+1. Tải tệp nén Binary zip: `apache-maven-3.9.x-bin.zip`.
+2. Giải nén vào thư mục, ví dụ: `C:\Program Files\apache-maven-3.9.6`.
+3. Thêm đường dẫn `bin` vào biến môi trường hệ thống (`PATH`):
+   - Mở **System Properties** $\rightarrow$ **Environment Variables** $\rightarrow$ tại **System variables** chọn `Path` $\rightarrow$ Thêm `C:\Program Files\apache-maven-3.9.6\bin`.
+4. Kiểm tra cài đặt:
+   ```powershell
+   mvn -version
+   ```
+
+#### 3. Cài đặt MySQL Server & Khởi tạo Database
+Bạn có thể chọn một trong hai phương án phổ biến sau:
+
+- **Phương án A (Dùng XAMPP - Tiện lợi nhất cho học tập):**
+  1. Tải và cài đặt [XAMPP](https://www.apachefriends.org/).
+  2. Mở **XAMPP Control Panel**, nhấn **Start** tại mục **MySQL** (cổng mặc định `3306`).
+  3. Mở trình duyệt vào `http://localhost/phpmyadmin` để quản trị cơ sở dữ liệu.
+
+- **Phương án B (Dùng MySQL Server 8.0 chuẩn):**
+  1. Tải và cài đặt [MySQL Installer Community](https://dev.mysql.com/downloads/installer/).
+  2. Thiết lập mật khẩu cho tài khoản `root` là `root` (để khớp với cấu hình mặc định trong `DBConnection.java`).
+  3. Đảm bảo MySQL Service đang chạy trên cổng `3306`.
+
+- **Phương án C (Dùng Docker - Không cần cài trực tiếp vào máy):**
+  ```bash
+  docker run -d --name sqli-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8.0
+  ```
+
+#### 4. Cài đặt Python 3 & Thư viện Pentest
+1. Tải Python 3 từ [Python.org](https://www.python.org/downloads/).
+2. ⚠️ **Lưu ý quan trọng:** Trong cửa sổ cài đặt đầu tiên trên Windows, bắt buộc tích chọn checkbox **"Add python.exe to PATH"**.
+3. Mở PowerShell/Terminal và cài đặt thư viện HTTP client `requests` để phục vụ chạy các script khai thác:
+   ```powershell
+   pip install requests
+   ```
+4. Kiểm tra cài đặt:
+   ```powershell
+   python --version
+   pip --version
+   ```
+
+#### 5. Cấu hình Google Gemini API (Tùy chọn cho module AI SAST)
+- Module `ai-analyzer` tích hợp sẵn **AppSec Knowledge Engine** hoạt động offline độc lập, không bắt buộc phải có internet hay API key.
+- Tuy nhiên, nếu muốn AI phân tích trực tiếp qua mô hình đám mây của Google:
+  1. Đăng ký API Key miễn phí tại [Google AI Studio](https://aistudio.google.com/app/apikey).
+  2. Thiết lập biến môi trường trước khi chạy `ai-analyzer`:
+     ```powershell
+     # Trên Windows PowerShell
+     $env:GEMINI_API_KEY = "AIzaSy..."
+     
+     # Trên Linux / macOS
+     export GEMINI_API_KEY="AIzaSy..."
+     ```
+
+---
+
 
 ### Bước 1: Khởi tạo Cơ sở Dữ liệu MySQL
 Mở terminal hoặc MySQL Workbench, đăng nhập vào MySQL và import file `database/sqli_lab.sql`:
@@ -279,25 +356,19 @@ Chi tiết xem tại: [Hướng Dẫn Khắc Phục (remediation_guide.md)](repo
 
 ```bash
 # 1. Di chuyển vào thư mục gốc của dự án
-cd "C:\Users\phatt\.gemini\antigravity\scratch\SQLInjection-Attack-AI"
+cd "C:\BTLAttt"
 
-# 2. Khởi tạo Git repository (nếu chưa có)
-git init
+# 2. Kiểm tra trạng thái Git
+git status
 
 # 3. Thêm toàn bộ tệp vào staging
 git add .
 
-# 4. Tạo commit đầu tiên
-git commit -m "feat: complete SQL Injection lab and Generative AI SAST analyzer"
+# 4. Tạo commit ghi nhận các thay đổi
+git commit -m "feat: upgrade prompt engineering with red-team methodologies and complete software setup guide"
 
-# 5. Đổi nhánh chính sang main
-git branch -M main
-
-# 6. Liên kết với repository trên GitHub của bạn (thay bằng URL repo của bạn)
-git remote add origin https://github.com/<your-username>/SQLInjection-Attack-AI.git
-
-# 7. Đẩy mã nguồn lên GitHub
-git push -u origin main
+# 5. Đẩy mã nguồn lên kho lưu trữ GitHub
+git push origin main
 ```
 
 ---
